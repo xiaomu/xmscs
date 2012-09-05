@@ -1,3 +1,10 @@
+/*****************************************************************************
+ *  Copyright          :  All Rights Reserved.
+ *
+ *  Date               :  2012-09-05 23:50:40
+ *  Author/Corporation :  Dengzhaoqun
+ *  Email              :  dengzhaoqun@163.com
+ *****************************************************************************/
 
 // insert Copyright into source code files.
 #include <string.h>
@@ -23,7 +30,6 @@ int main(int argc, char *argv[])
 {
 	FILE *from, *to;
 	char *from_path;
-	char tmp[FILE_NAME_LEN];
 	char buf[BUF_LEN];
 	int ret;
 	time_t myt;
@@ -43,12 +49,10 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
-	memset(tmp, 0, FILE_NAME_LEN);
-	tmpnam(tmp);
-	to = fopen(tmp, "w");
+	to = tmpfile();
 	if(to == NULL)
 	{
-		perror("fopen failed");
+		perror("tmpfile failed");
 		return -1;
 	}
 
@@ -63,14 +67,25 @@ int main(int argc, char *argv[])
 	memset(buf, 0, BUF_LEN);
 	while( (ret = fread(buf, sizeof(char), BUF_LEN, from)) > 0)
 	{
-		fwrite(buf, sizeof(char), ret, to);
+		fwrite(buf, ret, 1, to);
 	}
 
 	fclose(from);
+	
+	from = fopen(from_path, "w");
+	if(from == NULL)
+	{
+		perror("fopen failed");
+		return -1;
+	}
+	rewind(to);
+	memset(buf, 0, BUF_LEN);
+	while( (ret = fread(buf, sizeof(char), BUF_LEN, to)) > 0)
+	{
+		fwrite(buf, ret, 1, from);
+	}
+	fclose(from);
 	fclose(to);
-
-	remove(from_path);
-	rename(tmp, from_path);	
 
 	return 0;
 
