@@ -190,3 +190,83 @@ int help(char *menu[])
 	return 0;
 }
 
+/*
+ * 如果str,str2指向的字符串内容相同或者都为NULL, 返回1;  否则返回0
+ */
+int equal_or_bnull(char *str, char *str2)
+{
+	if(((str == NULL) && (str2 == NULL)) 
+		|| ((str != NULL) && (str2 != NULL) && (!(strcmp(str, str2)))))
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+/*
+ * 将时间格式化为 %Y-%m-%d %H:%M:%S 格式, dt存放格式化后的字符串 
+ * myt: 时间值, 如果为NULL, 则返回当前时间的格式化值;
+ * dt: 存放格式化字符串的空间
+ */
+void date_time(time_t myt, DATE_TIME_T *dt)
+{
+	struct tm *mytm;
+	if(myt == 0)
+	{
+		time(&myt);
+	}
+	mytm = localtime(&myt);
+	
+	memset(dt, 0, DATE_TIME_LEN);
+	strftime((char *)dt, DATE_TIME_LEN, "%Y-%m-%d %H:%M:%S", mytm);
+}
+
+/*
+ * 将32位的整形值转换为字符串
+ * val: 整数值 
+ * base: 进制数
+ * 使用后需要free
+ */
+char* itoa(int val, int base)
+{
+	char *buf;
+	int i = 30;
+	
+	buf = (char *)malloc(32 * sizeof(char));
+	if(buf == NULL)
+	{
+		fprintf(stderr, "malloc failed\n");
+		return NULL;
+	}
+	memset(buf, 0, 32);
+	
+	for(; val && i ; --i, val /= base)
+		buf[i] = "0123456789abcdef"[val % base];
+	return &buf[i+1];
+}
+
+/*
+ *合并两个字符串,返回新的字符串 
+ * 使用后需要free
+ */
+char *strcat_ex(const char *str, const char *str2)
+{
+	int len;
+	char *ptr;
+	
+	len = strlen(str) + strlen(str2);
+	ptr = (char *)malloc((len+1) * sizeof(char));
+	if(ptr == NULL)
+	{
+		fprintf(stderr, "malloc failed.\n");
+		return NULL;
+	}
+	memset(ptr, 0, len+1);
+	strcat(ptr, str);
+	strcat(ptr, str2);
+	
+	return ptr;
+}

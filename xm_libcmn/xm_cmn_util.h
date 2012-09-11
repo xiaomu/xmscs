@@ -12,5 +12,12 @@ char *xm_char_add(char *str, char *str2);
 char *xm_vsprintf_ex(int len, char *fmt, ... );
 int debug_printf(char *format, ...);
 int help(char *menu[]);
+int equal_or_bnull(char *str, char *str2);
 
+#define DATE_TIME_LEN 20
+typedef char DATE_TIME_T[DATE_TIME_LEN];
+void date_time(time_t myt, DATE_TIME_T *dt);
+
+char* itoa(int val, int base);
+char *strcat_ex(const char *str, const char *str2)
 #endif
