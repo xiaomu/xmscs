@@ -115,6 +115,11 @@ int check_file(char *path, int argc, char *argv[])
 			{
 				sig_count = 0;
 				p_start = strchr(&line[i_start], '"');
+				if(p_start == NULL)
+				{
+					*ptr++;
+					continue;
+				}
 				p_start ++;
 				c_pre = ' ';
 				while((p_start < &line[len-1]) && ((*p_start != '"') || ((*p_start == '"') && (c_pre == esc))))
