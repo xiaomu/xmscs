@@ -19,5 +19,6 @@ typedef char DATE_TIME_T[DATE_TIME_LEN];
 void date_time(time_t myt, DATE_TIME_T *dt);
 
 char* itoa(int val, int base);
-char *strcat_ex(const char *str, const char *str2)
+char *strcat_ex(const char *str, const char *str2);
+int xm_line_key_val(char *line, char *key, int key_len, char *val, int val_len);
 #endif
