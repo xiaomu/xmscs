@@ -303,3 +303,35 @@ int xm_line_key_val(char *line, char *key, int key_len, char *val, int val_len)
 	return 0;
 }
 
+/*
+ * 分配内存,判断是否成功,设置分配的空间为'\0';
+ * 失败返回NULL, 输出错误信息;
+ */
+void *xm_malloc(FILE *out, const int len) 
+{ 
+	void *ptr; 
+	ptr = (void *)malloc(len * sizeof(char)); 
+	if(ptr == NULL) 
+	{
+		fprintf(out, "malloc failed\n"); 
+		return NULL;
+	} 
+	memset(ptr, 0, len); 
+	return ptr; 
+}
+
+/*
+ * 打开分件,判断是否成功, 成功返回文件流指针,失败返回null, 输出错误信息
+ */
+FILE *xm_fopen(FILE *out, const char *path, const char *mode)
+{
+	FILE *fp;
+	fp = fopen(path, mode);
+	if(fp == NULL)
+	{
+		fprintf(out, "fopen %s failed\n", path);
+		return NULL;
+	}
+	return fp;	
+}
+
