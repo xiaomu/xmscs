@@ -8,6 +8,7 @@
 #ifndef _XM_CMN_UTIL_H_
 #define _XM_CMN_UTIL_H_
 
+#include <stdio.h>
 #include <time.h>
 
 char *xm_char_add(char *str, char *str2);
@@ -23,4 +24,9 @@ void date_time(time_t myt, DATE_TIME_T *dt);
 char* itoa(int val, int base);
 char *strcat_ex(const char *str, const char *str2);
 int xm_line_key_val(char *line, char *key, int key_len, char *val, int val_len);
+
+void *xm_malloc(FILE *out, const int len) ;
+FILE *xm_fopen(FILE *out, const char *path, const char *mode);
+
+int trim_boundary_quoto(char *str);
 #endif

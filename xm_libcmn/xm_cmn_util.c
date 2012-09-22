@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
+#include <ctype.h>
 
 #include "xm_cmn_util.h"
 
@@ -315,7 +316,7 @@ void *xm_malloc(FILE *out, const int len)
 	ptr = (void *)malloc(len * sizeof(char)); 
 	if(ptr == NULL) 
 	{
-		fprintf(out, "malloc failed\n"); 
+		fprintf(out, "malloc size %d failed\n", len);  
 		return NULL;
 	} 
 	memset(ptr, 0, len); 
@@ -331,9 +332,51 @@ FILE *xm_fopen(FILE *out, const char *path, const char *mode)
 	fp = fopen(path, mode);
 	if(fp == NULL)
 	{
-		fprintf(out, "fopen %s failed\n", path);
+		fprintf(out, "fopen %s failed with mode %s\n", path, mode);
 		return NULL;
 	}
 	return fp;	
+}
+
+/*
+ *	去除字符串两边带有的 " 字符或者 isspace 字符
+ */
+int trim_boundary_quoto(char *str)
+{
+	char *bak;
+	int len;
+	char *p_start, *p_end;
+	
+	len = strlen(str);
+	bak = (char *)xm_malloc(stderr, len+1);
+	if(bak == NULL)
+	{
+		return -1;
+	}
+	strncpy(bak, str, len);
+	bak[len] = '\0';
+	
+	p_start = &bak[0];
+	while(isspace(*p_start))
+	{
+		p_start ++;
+	}
+	if(*p_start == '"')
+	{
+		p_start ++;
+	}
+	p_end = &bak[len-1];
+	while(isspace(*p_end))
+	{
+		p_end --;
+	}
+	if(*p_end == '"')
+	{
+		p_end --;
+	}
+	strncpy(str, p_start, p_end-p_start+1);
+	str[p_end - p_start + 1] = '\0';
+	
+	return 0;
 }
 
