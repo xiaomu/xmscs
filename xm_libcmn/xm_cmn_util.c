@@ -10,6 +10,8 @@
 #include <string.h>
 #include <stdarg.h>
 
+#include "xm_cmn_util.h"
+
 /*
  * sum of two strings
  * eg: str="12", str2="234" return="246"
