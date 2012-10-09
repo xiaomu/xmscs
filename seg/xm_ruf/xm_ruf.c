@@ -1,7 +1,7 @@
 /*****************************************************************************
  *  Copyright          :  All Rights Reserved.
  *
- *  Date               :  2012-10-09 13:11:01
+ *  Date               :  2012-10-09 13:51:53
  *  Author/Corporation :  Dengzhaoqun
  *  Email              :  dengzhaoqun@163.com
  *****************************************************************************/
@@ -42,22 +42,14 @@ int xm_ruf_create(XM_RUF_T *ruf, const char *path, const int extra_size)
 	return -1;
 }
 
-XM_RUF_T *xm_ruf_fopen(const char *path, const char *mode)
+int xm_ruf_fopen(XM_RUF_T * ruf, const char *path, const char *mode)
 {
-	XM_RUF_T *ruf;
 	
 	if(access(path, 0) != 0)
 	{
 		fprintf(stderr, "%s no exist\n", path);
-		return NULL;
+		return -1;
 	}
-	
-	ruf = (XM_RUF_T *)malloc(sizeof(XM_RUF_T));
-	if(ruf == NULL)
-	{
-		return NULL;
-	}
-	memset(ruf, 0, sizeof(XM_RUF_T));
 	
 	if((!strcmp(mode, "r")) || (!strcmp(mode, "r+")) || (!strcmp(mode, "a")) || (!strcmp(mode, "a+")))
 	{
@@ -70,27 +62,24 @@ XM_RUF_T *xm_ruf_fopen(const char *path, const char *mode)
 				{
 					fseek(ruf->fp, ruf->f_pos, SEEK_SET);
 				}
-				return ruf;
+				return 0;
 			}
 			else
 			{
 				fprintf(stderr, "not roll up file\n");
-				free(ruf);
-				return NULL;
+				return -1;
 			}
 		}
 		else
 		{
 			perror("");
-			free(ruf);
-			return NULL;
+			return -1;
 		}
 	}
 	else
 	{
 		fprintf(stderr, "wrong mode %s\n", mode);
-		free(ruf);
-		return NULL;
+		return -1;
 	}
 }
 

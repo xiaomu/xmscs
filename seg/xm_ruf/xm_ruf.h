@@ -1,7 +1,7 @@
 /*****************************************************************************
  *  Copyright          :  All Rights Reserved.
  *
- *  Date               :  2012-10-09 13:11:28
+ *  Date               :  2012-10-09 13:51:56
  *  Author/Corporation :  Dengzhaoqun
  *  Email              :  dengzhaoqun@163.com
  *****************************************************************************/
@@ -21,7 +21,7 @@ typedef struct
 }XM_RUF_T;
 
 int xm_ruf_create(XM_RUF_T *ruf, const char *path, const int extra_size);
-XM_RUF_T *xm_ruf_fopen(const char *path, const char *mode);
+int xm_ruf_fopen(XM_RUF_T *ruf, const char *path, const char *mode);
 void xm_ruf_fclose(XM_RUF_T *ruf);
 void xm_ruf_rewind(XM_RUF_T *ruf);
 void xm_ruf_rollup(XM_RUF_T *ruf);
