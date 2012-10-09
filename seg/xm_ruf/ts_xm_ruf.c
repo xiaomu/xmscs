@@ -1,3 +1,10 @@
+/*****************************************************************************
+ *  Copyright          :  All Rights Reserved.
+ *
+ *  Date               :  2012-10-09 13:11:34
+ *  Author/Corporation :  Dengzhaoqun
+ *  Email              :  dengzhaoqun@163.com
+ *****************************************************************************/
 #include <stdio.h>
 
 #include "xm_ruf.h"

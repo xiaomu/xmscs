@@ -1,3 +1,10 @@
+/*****************************************************************************
+ *  Copyright          :  All Rights Reserved.
+ *
+ *  Date               :  2012-10-09 13:11:28
+ *  Author/Corporation :  Dengzhaoqun
+ *  Email              :  dengzhaoqun@163.com
+ *****************************************************************************/
 #ifndef _XM_RUF_H_
 
 // ruf -- roll up file

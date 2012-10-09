@@ -1,3 +1,10 @@
+/*****************************************************************************
+ *  Copyright          :  All Rights Reserved.
+ *
+ *  Date               :  2012-10-09 13:11:01
+ *  Author/Corporation :  Dengzhaoqun
+ *  Email              :  dengzhaoqun@163.com
+ *****************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
