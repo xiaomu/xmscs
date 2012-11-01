@@ -380,3 +380,43 @@ int trim_boundary_quoto(char *str)
 	return 0;
 }
 
+char *tr ( char *s )
+{
+	int i = 0;
+	int j = strlen ( s ) - 1;
+	int k = 0;
+
+	while ( isspace ( s[i] ) && s[i] != '\0' )
+	i++;
+
+	while ( isspace ( s[j] ) && j >= 0 )
+	j--;
+
+	while ( i <= j )
+	s[k++] = s[i++];
+
+	s[k] = '\0';
+
+	return s;
+}
+
+/*
+ *	将日志信息前加上 datetime 输出到标准错误流
+ */
+void xm_log(char *format, ... )
+{
+	DATE_TIME_T dt;
+	va_list ap;
+	char buf[FORMAT_LEN] = {'\0'};
+	
+	date_time(&dt, 0);
+	fprintf(stderr, "\n%s:\n", (char *)&dt);
+	
+	va_start(ap, format);
+	vsnprintf(buf, FORMAT_LEN, format, ap);
+	va_end(ap);
+	
+	fprintf(stderr, "%s", buf);
+	fflush(stderr);
+}
+

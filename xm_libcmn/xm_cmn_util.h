@@ -29,4 +29,10 @@ void *xm_malloc(FILE *out, const int len) ;
 FILE *xm_fopen(FILE *out, const char *path, const char *mode);
 
 int trim_boundary_quoto(char *str);
+
+char *tr ( char *s );
+
+#define FORMAT_LEN 1024
+void xm_log(char *format, ... );
+
 #endif
