@@ -420,3 +420,34 @@ void xm_log(char *format, ... )
 	fflush(stderr);
 }
 
+/*
+ *	作者: xm
+ *	日期: 2012-11-02
+ *  作用: 重定向 标准输出流 和 标准错误流 到一个文件
+ */
+int xm_redirect(const char *path)
+{
+	int fd;
+	
+	if(path == NULL)
+	{
+		return 0;
+	}
+	
+	fd = open(path, O_WRONLY | O_CREAT | O_TRUNC);
+	if(fd == -1)
+	{
+		fprintf(stderr, "open %s failed: %s\n", path, strerror(errno));
+		return -1;
+	}
+	
+	close(1);
+	close(2);
+	dup(fd);
+	dup(fd);
+	close(fd);
+	
+	return 0;
+}
+
+

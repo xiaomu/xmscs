@@ -34,5 +34,6 @@ char *tr ( char *s );
 
 #define FORMAT_LEN 1024
 void xm_log(char *format, ... );
+int xm_redirect(const char *path);
 
 #endif
