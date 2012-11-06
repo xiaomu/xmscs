@@ -142,4 +142,22 @@ int xm_is_empty_file(char *path)
 	}
 }
 
+in_addr_t resolve_host_name(char *hname)
+{
+	in_addr_t inetaddr;
+	struct hostent *h_ent;
+
+	if((inetaddr = inet_addr(hname)) == -1)
+	{
+		if(!(h_ent = gethostbyname (hname)))
+		{
+			fprintf(stderr, "[!] can't resolve host %.100s\n", hname);
+			return(-1);
+		}
+
+		bcopy(h_ent->h_addr, (char *)&inetaddr, h_ent->h_length);
+	}
+
+	return(inetaddr);
+}
 
