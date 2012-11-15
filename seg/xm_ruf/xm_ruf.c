@@ -50,17 +50,14 @@ int xm_ruf_fopen(XM_RUF_T * ruf, const char *path, const char *mode)
 		return -1;
 	}
 	
-	if((!strcmp(mode, "r")) || (!strcmp(mode, "r+")) || (!strcmp(mode, "a+")))
+	if((!strcmp(mode, "r")) || (!strcmp(mode, "r+")))
 	{
 		ruf->fp = fopen(path, mode);
 		if(ruf->fp != NULL)
 		{
 			if((fscanf(ruf->fp, "%d", &ruf->e_pos) != EOF) && (fscanf(ruf->fp, "%d", &ruf->f_pos) != EOF) && (fscanf(ruf->fp, "%d", &ruf->extra_size) != EOF))
 			{
-				if((!strcmp(mode, "r")) || (!strcmp(mode, "r+")))
-				{
-					fseek(ruf->fp, ruf->f_pos, SEEK_SET);
-				}
+				fseek(ruf->fp, ruf->f_pos, SEEK_SET);
 				return 0;
 			}
 			else
