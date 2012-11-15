@@ -44,24 +44,19 @@ int xm_ruf_create(XM_RUF_T *ruf, const char *path, const int extra_size)
 
 int xm_ruf_fopen(XM_RUF_T * ruf, const char *path, const char *mode)
 {
-	int cur_pos;
-	
 	if(access(path, 0) != 0)
 	{
 		fprintf(stderr, "%s no exist\n", path);
 		return -1;
 	}
 	
-	if((!strcmp(mode, "r")) || (!strcmp(mode, "r+")) || (!strcmp(mode, "a")) || (!strcmp(mode, "a+")))
+	if((!strcmp(mode, "r")) || (!strcmp(mode, "r+")) || (!strcmp(mode, "a+")))
 	{
 		ruf->fp = fopen(path, mode);
 		if(ruf->fp != NULL)
 		{
-			cur_pos = ftell(ruf->fp);
-			fseek(ruf->fp, 0, SEEK_SET);
 			if((fscanf(ruf->fp, "%d", &ruf->e_pos) != EOF) && (fscanf(ruf->fp, "%d", &ruf->f_pos) != EOF) && (fscanf(ruf->fp, "%d", &ruf->extra_size) != EOF))
 			{
-				fseek(ruf->fp, cur_pos, SEEK_SET);
 				if((!strcmp(mode, "r")) || (!strcmp(mode, "r+")))
 				{
 					fseek(ruf->fp, ruf->f_pos, SEEK_SET);
