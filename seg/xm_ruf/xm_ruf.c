@@ -44,6 +44,7 @@ int xm_ruf_create(XM_RUF_T *ruf, const char *path, const int extra_size)
 
 int xm_ruf_fopen(XM_RUF_T * ruf, const char *path, const char *mode)
 {
+	int cur_pos;
 	
 	if(access(path, 0) != 0)
 	{
@@ -56,8 +57,11 @@ int xm_ruf_fopen(XM_RUF_T * ruf, const char *path, const char *mode)
 		ruf->fp = fopen(path, mode);
 		if(ruf->fp != NULL)
 		{
+			cur_pos = ftell(ruf->fp);
+			fseek(ruf->fp, 0, SEEK_SET);
 			if((fscanf(ruf->fp, "%d", &ruf->e_pos) != EOF) && (fscanf(ruf->fp, "%d", &ruf->f_pos) != EOF) && (fscanf(ruf->fp, "%d", &ruf->extra_size) != EOF))
 			{
+				fseek(ruf->fp, cur_pos, SEEK_SET);
 				if((!strcmp(mode, "r")) || (!strcmp(mode, "r+")))
 				{
 					fseek(ruf->fp, ruf->f_pos, SEEK_SET);
@@ -104,7 +108,7 @@ void xm_ruf_rollup(XM_RUF_T *ruf)
 	cur_pos = ftell(ruf->fp);
 	if(cur_pos - ruf->e_pos < ruf->extra_size)
 	{
-		ruf->f_pos = ftell(ruf->fp);
+		ruf->f_pos = cur_pos;
 	}
 	else
 	{
