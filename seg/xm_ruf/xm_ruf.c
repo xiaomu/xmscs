@@ -57,12 +57,25 @@ int xm_ruf_fopen(XM_RUF_T * ruf, const char *path, const char *mode)
 		{
 			if((fscanf(ruf->fp, "%d", &ruf->e_pos) != EOF) && (fscanf(ruf->fp, "%d", &ruf->f_pos) != EOF) && (fscanf(ruf->fp, "%d", &ruf->extra_size) != EOF))
 			{
-				fseek(ruf->fp, ruf->f_pos, SEEK_SET);
+				if((ruf->e_pos != XM_RUF_META_LEN) || (ruf->f_pos < XM_RUF_META_LEN) || (ruf->extra_size <= 0))
+				{
+					fprintf(stderr, "%s is not roll up file\n", path);
+					fclose(ruf->fp);
+					return -1;
+				}
+				
+				if(fseek(ruf->fp, ruf->f_pos, SEEK_SET) != 0)
+				{
+					fprintf(stderr, "fseek in %s failed\n", path);
+					fclose(ruf->fp);
+					return -1;
+				}
 				return 0;
 			}
 			else
 			{
-				fprintf(stderr, "not roll up file\n");
+				fprintf(stderr, "%s is not roll up file\n", path);
+				fclose(ruf->fp);
 				return -1;
 			}
 		}
